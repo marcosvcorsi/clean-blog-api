@@ -1,8 +1,12 @@
-import env from 'dotenv';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnectionOptions, Connection } from 'typeorm';
 
-env.config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+export default async (name = 'default'): Promise<Connection> => {
+  const defaultOptions = await getConnectionOptions();
 
-createConnection();
+  return createConnection(
+    Object.assign(defaultOptions, {
+      name,
+      migrationsRun: process.env.NODE_ENV !== 'test',
+    }),
+  );
+};
