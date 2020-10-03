@@ -17,6 +17,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
+    "camelcase": "off",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "no-restricted-syntax": "off",
