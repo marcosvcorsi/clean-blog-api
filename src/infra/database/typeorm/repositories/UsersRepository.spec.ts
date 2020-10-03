@@ -1,6 +1,6 @@
 import { mockCreateUserParams } from '@/domain/test';
 import { Connection } from 'typeorm';
-import createConnection from '../index';
+import createConnection from '../connection';
 import { UsersRepository } from './UsersRepository';
 
 let connection: Connection;
