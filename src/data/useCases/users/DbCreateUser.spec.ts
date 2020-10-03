@@ -22,4 +22,14 @@ describe('DbCreateUser Test', () => {
 
     expect(repositorySpy).toHaveBeenCalledWith(createUserParams);
   });
+
+  it('should throw if CreateUserRepository throws', async () => {
+    const { sut, createUserRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(createUserRepositoryStub, 'create')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.create(mockCreateUserParams())).rejects.toThrow();
+  });
 });
