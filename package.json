@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "jest --silent --noStackTrace --passWithNoTests --runInBand",
+    "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:unit": "yarn test spec.ts --watch",
+    "test:integration": "yarn test test.ts --watch",
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test --coverage"
+  },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
@@ -23,14 +31,6 @@
     "prettier": "^2.1.2",
     "ts-jest": "^26.4.1",
     "typescript": "^4.0.3"
-  },
-  "scripts": {
-    "test": "jest --silent --noStackTrace --passWithNoTests --runInBand",
-    "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "yarn test spec.ts --watch",
-    "test:integration": "yarn test test.ts --watch",
-    "test:staged": "yarn test --findRelatedTests",
-    "test:ci": "yarn test --coverage"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
