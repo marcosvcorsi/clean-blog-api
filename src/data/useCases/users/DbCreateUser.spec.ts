@@ -1,24 +1,6 @@
-import { CreateUserRepository } from '@/data/protocols/users/CreateUserRepository';
-import { UserModel } from '@/domain/models/User';
-import { CreateUserParams } from '@/domain/useCases/CreateUser';
+import { mockCreateUserRepository } from '@/data/test';
+import { mockCreateUserParams } from '@/domain/test';
 import { DbCreateUser } from './DbCreateUser';
-
-const mockUserModel = (): UserModel => ({
-  id: 1,
-  name: 'anyname',
-  email: 'anymail@mail.com',
-  password: 'anypassword',
-});
-
-const mockCreateUserRepository = () => {
-  class CreateUserRepositoryStub implements CreateUserRepository {
-    async create(): Promise<UserModel> {
-      return mockUserModel();
-    }
-  }
-
-  return new CreateUserRepositoryStub();
-};
 
 const makeSut = () => {
   const createUserRepositoryStub = mockCreateUserRepository();
@@ -27,12 +9,6 @@ const makeSut = () => {
 
   return { sut, createUserRepositoryStub };
 };
-
-const mockCreateUserParams = (): CreateUserParams => ({
-  name: 'anyname',
-  email: 'anymail@mail.com.br',
-  password: 'anypassword',
-});
 
 describe('DbCreateUser Test', () => {
   it('should call CreateUserRepository with correct values', async () => {
