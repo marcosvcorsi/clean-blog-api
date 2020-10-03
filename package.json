@@ -28,6 +28,7 @@
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test spec.ts --watch",
     "test:integration": "yarn test test.ts --watch",
-    "test:staged": "yarn test --findRelatedTests"
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test --coverage"
   }
 }
