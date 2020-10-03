@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest --silent --noStackTrace --passWithNoTests --runInBand",
+    "test": "cross-env NODE_ENV=test jest --silent --noStackTrace --passWithNoTests --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test spec.ts --watch",
     "test:integration": "yarn test test.ts --watch",
