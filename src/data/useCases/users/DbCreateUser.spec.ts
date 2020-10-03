@@ -1,5 +1,5 @@
 import { mockCreateUserRepository } from '@/data/test';
-import { mockCreateUserParams } from '@/domain/test';
+import { mockCreateUserParams, mockUserModel } from '@/domain/test';
 import { DbCreateUser } from './DbCreateUser';
 
 const makeSut = () => {
@@ -31,5 +31,13 @@ describe('DbCreateUser Test', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.create(mockCreateUserParams())).rejects.toThrow();
+  });
+
+  it('should return a user model on success', async () => {
+    const { sut } = makeSut();
+
+    const userModel = await sut.create(mockCreateUserParams());
+
+    expect(userModel).toEqual(mockUserModel());
   });
 });
