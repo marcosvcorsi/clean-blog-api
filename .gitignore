@@ -5,3 +5,5 @@ coverage
 .env
 
 *.sqlite
+
+ormconfig.json
