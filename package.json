@@ -30,5 +30,8 @@
     "test:integration": "yarn test test.ts --watch",
     "test:staged": "yarn test --findRelatedTests",
     "test:ci": "yarn test --coverage"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
   }
 }
