@@ -7,3 +7,10 @@ export const serverError = (error: Error): HttpResponse => {
     body: new ServerError(error.stack),
   };
 };
+
+export const created = (data: any): HttpResponse => {
+  return {
+    statusCode: 201,
+    body: data,
+  };
+};

@@ -1,5 +1,5 @@
 import { CreateUser } from '@/domain/useCases/CreateUser';
-import { serverError } from '@/presentation/helpers/http';
+import { created, serverError } from '@/presentation/helpers/http';
 import { Controller } from '@/presentation/protocols/Controller';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
 
@@ -10,9 +10,9 @@ export class CreateUserController implements Controller {
     try {
       const { email, name, password } = httpRequest.body;
 
-      await this.createUser.create({ email, name, password });
+      const user = await this.createUser.create({ email, name, password });
 
-      return {} as HttpResponse;
+      return created({ name: user.name, email: user.email });
     } catch (error) {
       return serverError(error);
     }
