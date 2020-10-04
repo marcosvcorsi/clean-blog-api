@@ -1,13 +1,14 @@
-import { mockCreateUserRepository } from '@/data/test';
+import { mockCreateUserRepository, mockHasher } from '@/data/test';
 import { mockCreateUserParams, mockUserModel } from '@/domain/test';
 import { DbCreateUser } from './DbCreateUser';
 
 const makeSut = () => {
+  const hasherStub = mockHasher();
   const createUserRepositoryStub = mockCreateUserRepository();
 
-  const sut = new DbCreateUser(createUserRepositoryStub);
+  const sut = new DbCreateUser(hasherStub, createUserRepositoryStub);
 
-  return { sut, createUserRepositoryStub };
+  return { sut, createUserRepositoryStub, hasherStub };
 };
 
 describe('DbCreateUser Test', () => {
@@ -31,6 +32,18 @@ describe('DbCreateUser Test', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.create(mockCreateUserParams())).rejects.toThrow();
+  });
+
+  it('should call Hasher with correct value', async () => {
+    const { sut, hasherStub } = makeSut();
+
+    const hashSpy = jest.spyOn(hasherStub, 'generate');
+
+    const createUserParams = mockCreateUserParams();
+
+    await sut.create(createUserParams);
+
+    expect(hashSpy).toHaveBeenCalledWith(createUserParams.password);
   });
 
   it('should return a user model on success', async () => {
