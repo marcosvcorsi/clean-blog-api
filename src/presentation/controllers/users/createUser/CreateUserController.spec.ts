@@ -1,17 +1,5 @@
-import { mockUserModel } from '@/domain/test';
-import { CreateUser } from '@/domain/useCases/CreateUser';
-import { User } from '@/infra/database/typeorm/entities/User';
+import { mockCreateUser } from '@/domain/test';
 import { CreateUserController } from './CreateUserController';
-
-const mockCreateUser = () => {
-  class CreateUserStub implements CreateUser {
-    async create(): Promise<User> {
-      return mockUserModel();
-    }
-  }
-
-  return new CreateUserStub();
-};
 
 const makeSut = () => {
   const createUserStub = mockCreateUser();

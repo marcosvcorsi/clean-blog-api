@@ -1,5 +1,5 @@
 import { UserModel } from '../models/User';
-import { CreateUserParams } from '../useCases/CreateUser';
+import { CreateUser, CreateUserParams } from '../useCases/CreateUser';
 
 export const mockUserModel = (): UserModel => ({
   id: 1,
@@ -13,3 +13,13 @@ export const mockCreateUserParams = (): CreateUserParams => ({
   email: 'anymail@mail.com.br',
   password: 'anypassword',
 });
+
+export const mockCreateUser = () => {
+  class CreateUserStub implements CreateUser {
+    async create(): Promise<UserModel> {
+      return mockUserModel();
+    }
+  }
+
+  return new CreateUserStub();
+};
