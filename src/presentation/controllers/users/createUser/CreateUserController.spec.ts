@@ -1,5 +1,5 @@
 import { mockCreateUser } from '@/domain/test';
-import { serverError } from '@/presentation/helpers/http';
+import { created, serverError } from '@/presentation/helpers/http';
 import { CreateUserController } from './CreateUserController';
 
 const makeSut = () => {
@@ -44,5 +44,22 @@ describe('CreateUserController Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return created with name and email on success', async () => {
+    const { sut } = makeSut();
+
+    const httpRequest = mockRequest();
+
+    const response = await sut.handle(httpRequest);
+
+    const { name, email } = httpRequest.body;
+
+    expect(response).toEqual(
+      created({
+        name,
+        email,
+      }),
+    );
   });
 });
