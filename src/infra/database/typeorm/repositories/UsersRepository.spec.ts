@@ -11,7 +11,7 @@ const makeSut = () => {
 
 describe('UsersRepository Test', () => {
   beforeAll(async () => {
-    connection = await createConnection('test');
+    connection = await createConnection();
   });
 
   beforeEach(async () => {
