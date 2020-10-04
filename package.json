@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/main/server.ts",
+    "dev": "tsnd -r tsconfig-paths/register --transpile-only --respawn --ignore-watch node_modules src/main/server.ts",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "test": "cross-env NODE_ENV=test jest --silent --noStackTrace --passWithNoTests --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -37,6 +37,7 @@
     "supertest": "^5.0.0",
     "ts-jest": "^26.4.1",
     "ts-node-dev": "^1.0.0-pre.63",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.3"
   },
   "dependencies": {
