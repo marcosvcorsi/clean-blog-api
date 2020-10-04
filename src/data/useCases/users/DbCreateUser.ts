@@ -1,12 +1,24 @@
+import { Hasher } from '@/data/protocols/crypto/Hasher';
 import { CreateUserRepository } from '@/data/protocols/users/CreateUserRepository';
 import { UserModel } from '@/domain/models/User';
 import { CreateUser, CreateUserParams } from '@/domain/useCases/CreateUser';
 
 export class DbCreateUser implements CreateUser {
-  constructor(private readonly createUserRepository: CreateUserRepository) {}
+  constructor(
+    private readonly hasher: Hasher,
+    private readonly createUserRepository: CreateUserRepository,
+  ) {}
 
   async create(data: CreateUserParams): Promise<UserModel> {
-    const user = await this.createUserRepository.create(data);
+    const { name, email, password } = data;
+
+    const hashedPassword = await this.hasher.generate(password);
+
+    const user = await this.createUserRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
 
     return user;
   }
