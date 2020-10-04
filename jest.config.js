@@ -22,6 +22,7 @@ module.exports = {
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/infra/database/typeorm/migrations/*.ts',
     '!<rootDir>/src/infra/database/typeorm/connection.ts',
+    '!<rootDir>/src/main/server.ts',
   ],
 
   // The directory where Jest should output its coverage files
