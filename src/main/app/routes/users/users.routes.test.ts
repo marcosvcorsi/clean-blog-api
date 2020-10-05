@@ -3,6 +3,23 @@ import { Connection } from 'typeorm';
 import createConnection from '@/infra/database/typeorm/connection';
 import app from '../../index';
 
+jest.mock('nodemailer', () => ({
+  async createTestAccount(): Promise<any> {
+    return {
+      user: 'anyuser',
+      pass: 'anypass',
+    };
+  },
+
+  async createTransport() {
+    return {
+      sendMail: () => Promise.resolve({ messageId: 'any' }),
+    };
+  },
+
+  getTestMessageUrl: () => {},
+}));
+
 let connection: Connection;
 
 describe('Users Routes Test', () => {

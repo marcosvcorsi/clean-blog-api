@@ -11,9 +11,11 @@ jest.mock('nodemailer', () => ({
 
   async createTransport() {
     return {
-      sendMail: () => Promise.resolve(),
+      sendMail: () => Promise.resolve({ messageId: 'any' }),
     };
   },
+
+  getTestMessageUrl: () => {},
 }));
 
 const makeSut = () => {

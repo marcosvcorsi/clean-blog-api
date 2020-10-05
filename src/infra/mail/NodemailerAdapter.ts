@@ -25,7 +25,7 @@ export class NodemailerAdapter implements Mail {
   async sendMail({ to, subject, html }: MailParams): Promise<void> {
     const transporter = await this.getTransporter();
 
-    return transporter.sendMail({
+    const info = await transporter.sendMail({
       from: {
         name: 'Clean Blog',
         address: 'cleanblogapi@test.com',
@@ -34,5 +34,8 @@ export class NodemailerAdapter implements Mail {
       subject,
       html,
     });
+
+    console.log('Message sent: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
   }
 }

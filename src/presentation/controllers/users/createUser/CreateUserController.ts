@@ -14,6 +14,7 @@ export class CreateUserController implements Controller {
 
       return created({ name: user.name, email: user.email });
     } catch (error) {
+      console.log(error);
       return serverError(error);
     }
   }
