@@ -2,7 +2,7 @@ import { UserModel } from '@/domain/models/User';
 import { mockUserModel } from '@/domain/test';
 import { Hasher } from '../protocols/crypto/Hasher';
 import { Mail } from '../protocols/mail/Mail';
-import { CreateUserRepository } from '../protocols/users/CreateUserRepository';
+import { CreateUserRepository } from '../protocols/database/users/CreateUserRepository';
 
 export const mockCreateUserRepository = () => {
   class CreateUserRepositoryStub implements CreateUserRepository {

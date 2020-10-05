@@ -1,4 +1,4 @@
-import { CreateUserRepository } from '@/data/protocols/users/CreateUserRepository';
+import { CreateUserRepository } from '@/data/protocols/database/users/CreateUserRepository';
 import { CreateUserParams } from '@/domain/useCases/CreateUser';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '../entities/User';

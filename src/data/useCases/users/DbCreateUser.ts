@@ -1,6 +1,6 @@
 import { Hasher } from '@/data/protocols/crypto/Hasher';
 import { Mail } from '@/data/protocols/mail/Mail';
-import { CreateUserRepository } from '@/data/protocols/users/CreateUserRepository';
+import { CreateUserRepository } from '@/data/protocols/database/users/CreateUserRepository';
 import { UserModel } from '@/domain/models/User';
 import { CreateUser, CreateUserParams } from '@/domain/useCases/CreateUser';
 
