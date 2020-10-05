@@ -71,6 +71,18 @@ describe('DbCreateUser Test', () => {
     expect(mailSpy).toHaveBeenCalled();
   });
 
+  it('should throw if Mail throws', async () => {
+    const { sut, mailStub } = makeSut();
+
+    jest
+      .spyOn(mailStub, 'sendMail')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    const createUserParams = mockCreateUserParams();
+
+    await expect(sut.create(createUserParams)).rejects.toThrow();
+  });
+
   it('should return a user model on success', async () => {
     const { sut } = makeSut();
 
