@@ -1,14 +1,15 @@
-import { mockCreateUserRepository, mockHasher } from '@/data/test';
+import { mockCreateUserRepository, mockHasher, mockMail } from '@/data/test';
 import { mockCreateUserParams, mockUserModel } from '@/domain/test';
 import { DbCreateUser } from './DbCreateUser';
 
 const makeSut = () => {
   const hasherStub = mockHasher();
   const createUserRepositoryStub = mockCreateUserRepository();
+  const mailStub = mockMail();
 
-  const sut = new DbCreateUser(hasherStub, createUserRepositoryStub);
+  const sut = new DbCreateUser(hasherStub, createUserRepositoryStub, mailStub);
 
-  return { sut, createUserRepositoryStub, hasherStub };
+  return { sut, createUserRepositoryStub, hasherStub, mailStub };
 };
 
 describe('DbCreateUser Test', () => {
@@ -56,6 +57,18 @@ describe('DbCreateUser Test', () => {
     const createUserParams = mockCreateUserParams();
 
     await expect(sut.create(createUserParams)).rejects.toThrow();
+  });
+
+  it('should call Mail with correct values', async () => {
+    const { sut, mailStub } = makeSut();
+
+    const mailSpy = jest.spyOn(mailStub, 'sendMail');
+
+    const createUserParams = mockCreateUserParams();
+
+    await sut.create(createUserParams);
+
+    expect(mailSpy).toHaveBeenCalled();
   });
 
   it('should return a user model on success', async () => {

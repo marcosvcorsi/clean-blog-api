@@ -1,6 +1,7 @@
 import { UserModel } from '@/domain/models/User';
 import { mockUserModel } from '@/domain/test';
 import { Hasher } from '../protocols/crypto/Hasher';
+import { Mail } from '../protocols/mail/Mail';
 import { CreateUserRepository } from '../protocols/users/CreateUserRepository';
 
 export const mockCreateUserRepository = () => {
@@ -21,4 +22,14 @@ export const mockHasher = () => {
   }
 
   return new HasherStub();
+};
+
+export const mockMail = () => {
+  class MailStub implements Mail {
+    async sendMail(): Promise<void> {
+      return Promise.resolve();
+    }
+  }
+
+  return new MailStub();
 };
