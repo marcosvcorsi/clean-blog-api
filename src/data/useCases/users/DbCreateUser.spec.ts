@@ -46,6 +46,18 @@ describe('DbCreateUser Test', () => {
     expect(hashSpy).toHaveBeenCalledWith(createUserParams.password);
   });
 
+  it('should throw if Hasher throws', async () => {
+    const { sut, hasherStub } = makeSut();
+
+    jest
+      .spyOn(hasherStub, 'generate')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    const createUserParams = mockCreateUserParams();
+
+    await expect(sut.create(createUserParams)).rejects.toThrow();
+  });
+
   it('should return a user model on success', async () => {
     const { sut } = makeSut();
 
