@@ -9,6 +9,6 @@ export type MailParams = {
   html: string;
 };
 
-export interface Mail {
+export interface IMail {
   sendMail(data: MailParams): Promise<void>;
 }

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import { Hasher } from '@/data/protocols/crypto/Hasher';
+import { IHasher } from '@/data/protocols/crypto/IHasher';
 
-export class BcryptAdapter implements Hasher {
+export class BcryptAdapter implements IHasher {
   constructor(private readonly salt: number) {}
 
   async generate(value: string): Promise<string> {

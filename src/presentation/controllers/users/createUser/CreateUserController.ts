@@ -1,10 +1,10 @@
-import { CreateUser } from '@/domain/useCases/CreateUser';
+import { ICreateUser } from '@/domain/useCases/ICreateUser';
 import { created, serverError } from '@/presentation/helpers/http';
-import { Controller } from '@/presentation/protocols/Controller';
+import { IController } from '@/presentation/protocols/IController';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
 
-export class CreateUserController implements Controller {
-  constructor(private readonly createUser: CreateUser) {}
+export class CreateUserController implements IController {
+  constructor(private readonly createUser: ICreateUser) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -14,7 +14,6 @@ export class CreateUserController implements Controller {
 
       return created({ name: user.name, email: user.email });
     } catch (error) {
-      console.log(error);
       return serverError(error);
     }
   }

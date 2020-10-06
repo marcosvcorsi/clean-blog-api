@@ -1,9 +1,9 @@
 import nodemailer, { Transporter } from 'nodemailer';
-import { Mail, MailParams } from '@/data/protocols/mail/Mail';
+import { IMail, MailParams } from '@/data/protocols/mail/IMail';
 
 import mailConfig from '@/main/config/mail';
 
-export class NodemailerAdapter implements Mail {
+export class NodemailerAdapter implements IMail {
   private client: Transporter;
 
   async getTransporter() {

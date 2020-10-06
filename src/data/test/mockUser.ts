@@ -1,11 +1,11 @@
 import { UserModel } from '@/domain/models/User';
 import { mockUserModel } from '@/domain/test';
-import { Hasher } from '../protocols/crypto/Hasher';
-import { Mail } from '../protocols/mail/Mail';
-import { CreateUserRepository } from '../protocols/database/users/CreateUserRepository';
+import { IHasher } from '../protocols/crypto/IHasher';
+import { IMail } from '../protocols/mail/IMail';
+import { ICreateUserRepository } from '../protocols/database/users/ICreateUserRepository';
 
 export const mockCreateUserRepository = () => {
-  class CreateUserRepositoryStub implements CreateUserRepository {
+  class CreateUserRepositoryStub implements ICreateUserRepository {
     async create(): Promise<UserModel> {
       return mockUserModel();
     }
@@ -15,7 +15,7 @@ export const mockCreateUserRepository = () => {
 };
 
 export const mockHasher = () => {
-  class HasherStub implements Hasher {
+  class HasherStub implements IHasher {
     async generate(value: string): Promise<string> {
       return value;
     }
@@ -25,7 +25,7 @@ export const mockHasher = () => {
 };
 
 export const mockMail = () => {
-  class MailStub implements Mail {
+  class MailStub implements IMail {
     async sendMail(): Promise<void> {
       return Promise.resolve();
     }

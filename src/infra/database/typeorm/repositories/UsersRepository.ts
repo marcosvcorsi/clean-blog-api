@@ -1,9 +1,9 @@
-import { CreateUserRepository } from '@/data/protocols/database/users/CreateUserRepository';
-import { CreateUserParams } from '@/domain/useCases/CreateUser';
+import { ICreateUserRepository } from '@/data/protocols/database/users/ICreateUserRepository';
+import { CreateUserParams } from '@/domain/useCases/ICreateUser';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '../entities/User';
 
-export class UsersRepository implements CreateUserRepository {
+export class UsersRepository implements ICreateUserRepository {
   private readonly usersRepository: Repository<User>;
 
   constructor() {

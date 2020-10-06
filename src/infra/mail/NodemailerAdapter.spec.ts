@@ -1,4 +1,4 @@
-import { MailParams } from '@/data/protocols/mail/Mail';
+import { MailParams } from '@/data/protocols/mail/IMail';
 import { NodemailerAdapter } from './NodemailerAdapter';
 
 jest.mock('nodemailer', () => ({

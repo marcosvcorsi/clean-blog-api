@@ -1,14 +1,14 @@
-import { Hasher } from '@/data/protocols/crypto/Hasher';
-import { Mail } from '@/data/protocols/mail/Mail';
-import { CreateUserRepository } from '@/data/protocols/database/users/CreateUserRepository';
+import { IHasher } from '@/data/protocols/crypto/IHasher';
+import { IMail } from '@/data/protocols/mail/IMail';
+import { ICreateUserRepository } from '@/data/protocols/database/users/ICreateUserRepository';
 import { UserModel } from '@/domain/models/User';
-import { CreateUser, CreateUserParams } from '@/domain/useCases/CreateUser';
+import { ICreateUser, CreateUserParams } from '@/domain/useCases/ICreateUser';
 
-export class DbCreateUser implements CreateUser {
+export class DbCreateUser implements ICreateUser {
   constructor(
-    private readonly hasher: Hasher,
-    private readonly createUserRepository: CreateUserRepository,
-    private readonly mail: Mail,
+    private readonly hasher: IHasher,
+    private readonly createUserRepository: ICreateUserRepository,
+    private readonly mail: IMail,
   ) {}
 
   async create(data: CreateUserParams): Promise<UserModel> {
