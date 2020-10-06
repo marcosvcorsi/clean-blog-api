@@ -1,6 +1,8 @@
 import 'reflect-metadata';
 import express from 'express';
 
+import '@/main/config/env';
+
 import createConnection from '@/infra/database/typeorm/connection';
 
 const app = express();

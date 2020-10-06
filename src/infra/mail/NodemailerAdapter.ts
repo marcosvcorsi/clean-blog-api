@@ -1,20 +1,20 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import { Mail, MailParams } from '@/data/protocols/mail/Mail';
 
+import mailConfig from '@/main/config/mail';
+
 export class NodemailerAdapter implements Mail {
   private client: Transporter;
 
   async getTransporter() {
     if (!this.client) {
-      const account = await nodemailer.createTestAccount();
+      const { user, pass } = await nodemailer.createTestAccount();
 
       this.client = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        ...mailConfig,
         auth: {
-          user: account.user, // generated ethereal user
-          pass: account.pass, // generated ethereal password
+          user,
+          pass,
         },
       });
     }
