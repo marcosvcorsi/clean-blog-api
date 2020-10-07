@@ -25,7 +25,7 @@ export const mockAuthenticationParams = (): AuthenticationParams => ({
 
 export const mockLoadUserByEmailRepository = () => {
   class LoadUserByEmailRepositoryStub implements ILoadUserByEmailRepository {
-    async loadByEmail(): Promise<UserModel> {
+    async loadByEmail(): Promise<UserModel | null> {
       return mockUserModel();
     }
   }
