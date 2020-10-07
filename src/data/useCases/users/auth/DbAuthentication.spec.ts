@@ -55,4 +55,14 @@ describe('DbAuthentication Test', () => {
 
     expect(hashSpy).toHaveBeenCalledWith(password, password);
   });
+
+  it('should throw if HashComparer throws', async () => {
+    const { sut, hashComparerStub } = makeSut();
+
+    jest
+      .spyOn(hashComparerStub, 'compare')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.auth(mockAuthenticationParams())).rejects.toThrow();
+  });
 });
