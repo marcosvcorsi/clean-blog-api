@@ -1,4 +1,4 @@
-import { DbCreateUser } from '@/data/useCases/users/DbCreateUser';
+import { DbCreateUser } from '@/data/useCases/users/create/DbCreateUser';
 import { BcryptAdapter } from '@/infra/crypto/bcryptAdapter/BcryptAdapter';
 import { UsersRepository } from '@/infra/database/typeorm/repositories/UsersRepository';
 import { NodemailerAdapter } from '@/infra/mail/NodemailerAdapter';
