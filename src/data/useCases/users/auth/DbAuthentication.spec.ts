@@ -1,14 +1,14 @@
 import {
   mockAuthenticationParams,
   mockEncrypter,
-  mockHasherComparer,
+  mockHashComparer,
   mockLoadUserByEmailRepository,
 } from '@/data/test';
 import { DbAuthentication } from './DbAuthentication';
 
 const makeSut = () => {
   const loadUserByEmailRepositoryStub = mockLoadUserByEmailRepository();
-  const hashComparerStub = mockHasherComparer();
+  const hashComparerStub = mockHashComparer();
   const encrypterStub = mockEncrypter();
 
   const sut = new DbAuthentication(

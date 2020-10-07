@@ -1,5 +1,5 @@
 import { IEncrypter } from '@/data/protocols/crypto/IEncrypter';
-import { IHasherComparer } from '@/data/protocols/crypto/IHasherComparer';
+import { IHashComparer } from '@/data/protocols/crypto/IHashComparer';
 import { ILoadUserByEmailRepository } from '@/data/protocols/database/users/ILoadUserByEmailRepository';
 import {
   IAuthentication,
@@ -10,7 +10,7 @@ import {
 export class DbAuthentication implements IAuthentication {
   constructor(
     private readonly loadUserByEmailRepository: ILoadUserByEmailRepository,
-    private readonly hashComparer: IHasherComparer,
+    private readonly hashComparer: IHashComparer,
     private readonly encrypter: IEncrypter,
   ) {}
 
