@@ -6,6 +6,7 @@ import { IMail } from '../protocols/mail/IMail';
 import { ICreateUserRepository } from '../protocols/database/users/ICreateUserRepository';
 import { ILoadUserByEmailRepository } from '../protocols/database/users/ILoadUserByEmailRepository';
 import { IHasherComparer } from '../protocols/crypto/IHasherComparer';
+import { IEncrypter } from '../protocols/crypto/IEncrypter';
 
 export const mockCreateUserRepository = () => {
   class CreateUserRepositoryStub implements ICreateUserRepository {
@@ -50,6 +51,16 @@ export const mockHasher = () => {
   }
 
   return new HasherStub();
+};
+
+export const mockEncrypter = () => {
+  class EncrypterStub implements IEncrypter {
+    async encrypt(): Promise<string> {
+      return 'encryptedvalue';
+    }
+  }
+
+  return new EncrypterStub();
 };
 
 export const mockMail = () => {

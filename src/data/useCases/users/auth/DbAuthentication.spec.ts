@@ -1,5 +1,6 @@
 import {
   mockAuthenticationParams,
+  mockEncrypter,
   mockHasherComparer,
   mockLoadUserByEmailRepository,
 } from '@/data/test';
@@ -8,12 +9,20 @@ import { DbAuthentication } from './DbAuthentication';
 const makeSut = () => {
   const loadUserByEmailRepositoryStub = mockLoadUserByEmailRepository();
   const hashComparerStub = mockHasherComparer();
+  const encrypterStub = mockEncrypter();
+
   const sut = new DbAuthentication(
     loadUserByEmailRepositoryStub,
     hashComparerStub,
+    encrypterStub,
   );
 
-  return { sut, loadUserByEmailRepositoryStub, hashComparerStub };
+  return {
+    sut,
+    loadUserByEmailRepositoryStub,
+    hashComparerStub,
+    encrypterStub,
+  };
 };
 
 describe('DbAuthentication Test', () => {
@@ -64,5 +73,17 @@ describe('DbAuthentication Test', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.auth(mockAuthenticationParams())).rejects.toThrow();
+  });
+
+  it('should call Encrypter with correct value', async () => {
+    const { sut, encrypterStub } = makeSut();
+
+    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
+
+    const authenticationParams = mockAuthenticationParams();
+
+    await sut.auth(authenticationParams);
+
+    expect(encryptSpy).toHaveBeenCalledWith(1);
   });
 });
