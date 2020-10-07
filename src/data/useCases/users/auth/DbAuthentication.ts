@@ -1,3 +1,4 @@
+import { IHasherComparer } from '@/data/protocols/crypto/IHasherComparer';
 import { ILoadUserByEmailRepository } from '@/data/protocols/database/users/ILoadUserByEmailRepository';
 import {
   IAuthentication,
@@ -8,12 +9,17 @@ import {
 export class DbAuthentication implements IAuthentication {
   constructor(
     private readonly loadUserByEmailRepository: ILoadUserByEmailRepository,
+    private readonly hashComparer: IHasherComparer,
   ) {}
 
   async auth(data: AuthenticationParams): Promise<AuthenticationResponse> {
-    const { email } = data;
+    const { email, password } = data;
 
-    await this.loadUserByEmailRepository.loadByEmail(email);
+    const user = await this.loadUserByEmailRepository.loadByEmail(email);
+
+    if (user && (await this.hashComparer.compare(password, user.password))) {
+      return {} as AuthenticationResponse;
+    }
 
     return {} as AuthenticationResponse;
   }
