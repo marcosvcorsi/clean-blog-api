@@ -26,4 +26,14 @@ describe('DbAuthentication Test', () => {
 
     expect(repositorySpy).toHaveBeenCalledWith(authenticationParams.email);
   });
+
+  it('should throw if LoadUserByEmailRepository throws', async () => {
+    const { sut, loadUserByEmailRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(loadUserByEmailRepositoryStub, 'loadByEmail')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.auth(mockAuthenticationParams())).rejects.toThrow();
+  });
 });
