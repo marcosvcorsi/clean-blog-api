@@ -5,6 +5,7 @@ import { IHasher } from '../protocols/crypto/IHasher';
 import { IMail } from '../protocols/mail/IMail';
 import { ICreateUserRepository } from '../protocols/database/users/ICreateUserRepository';
 import { ILoadUserByEmailRepository } from '../protocols/database/users/ILoadUserByEmailRepository';
+import { IHasherComparer } from '../protocols/crypto/IHasherComparer';
 
 export const mockCreateUserRepository = () => {
   class CreateUserRepositoryStub implements ICreateUserRepository {
@@ -29,6 +30,16 @@ export const mockLoadUserByEmailRepository = () => {
   }
 
   return new LoadUserByEmailRepositoryStub();
+};
+
+export const mockHasherComparer = () => {
+  class HashComparerStub implements IHasherComparer {
+    async compare(): Promise<boolean> {
+      return true;
+    }
+  }
+
+  return new HashComparerStub();
 };
 
 export const mockHasher = () => {
