@@ -24,13 +24,15 @@ describe('UsersRepository Test', () => {
     await connection.close();
   });
 
-  it('should be able to insert a new user', async () => {
-    const sut = makeSut();
+  describe('create()', () => {
+    it('should be able to insert a new user', async () => {
+      const sut = makeSut();
 
-    const user = await sut.create(mockCreateUserParams());
+      const user = await sut.create(mockCreateUserParams());
 
-    expect(user).toBeTruthy();
-    expect(user).toHaveProperty('id');
-    expect(user.id).toBeTruthy();
+      expect(user).toBeTruthy();
+      expect(user).toHaveProperty('id');
+      expect(user.id).toBeTruthy();
+    });
   });
 });
