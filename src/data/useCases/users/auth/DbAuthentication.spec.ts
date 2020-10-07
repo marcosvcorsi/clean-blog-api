@@ -120,4 +120,15 @@ describe('DbAuthentication Test', () => {
 
     expect(response).toBeNull();
   });
+
+  it('should return name, email and token on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.auth(mockAuthenticationParams());
+
+    expect(response).toBeTruthy();
+    expect(response).toHaveProperty('name');
+    expect(response).toHaveProperty('email');
+    expect(response).toHaveProperty('token');
+  });
 });
