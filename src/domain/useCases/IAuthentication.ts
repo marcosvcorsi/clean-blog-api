@@ -10,5 +10,5 @@ export type AuthenticationResponse = {
 };
 
 export interface IAuthentication {
-  auth(data: AuthenticationParams): Promise<AuthenticationResponse>;
+  auth(data: AuthenticationParams): Promise<AuthenticationResponse | null>;
 }
