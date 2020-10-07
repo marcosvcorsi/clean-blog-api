@@ -35,4 +35,14 @@ describe('UsersRepository Test', () => {
       expect(user.id).toBeTruthy();
     });
   });
+
+  describe('loadByEmail()', () => {
+    it('should return null when email does not exists', async () => {
+      const sut = makeSut();
+
+      const user = await sut.loadByEmail('anymail@mail.com');
+
+      expect(user).toBeNull();
+    });
+  });
 });
