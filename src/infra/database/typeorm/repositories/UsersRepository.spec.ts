@@ -1,6 +1,7 @@
 import { mockCreateUserParams } from '@/domain/test';
-import { Connection } from 'typeorm';
+import { Connection, getRepository } from 'typeorm';
 import createConnection from '../connection';
+import { User } from '../entities/User';
 import { UsersRepository } from './UsersRepository';
 
 let connection: Connection;
@@ -43,6 +44,22 @@ describe('UsersRepository Test', () => {
       const user = await sut.loadByEmail('anymail@mail.com');
 
       expect(user).toBeNull();
+    });
+
+    it('should return an user by email', async () => {
+      const sut = makeSut();
+
+      const userRepository = getRepository(User);
+
+      const fakeUser = userRepository.create(mockCreateUserParams());
+
+      await userRepository.save(fakeUser);
+
+      const user = await sut.loadByEmail('anymail@mail.com');
+
+      expect(user).toBeTruthy();
+      expect(user?.id).toBeTruthy();
+      expect(user?.email).toBe('anymail@mail.com');
     });
   });
 });

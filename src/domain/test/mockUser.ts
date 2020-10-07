@@ -10,7 +10,7 @@ export const mockUserModel = (): UserModel => ({
 
 export const mockCreateUserParams = (): CreateUserParams => ({
   name: 'anyname',
-  email: 'anymail@mail.com.br',
+  email: 'anymail@mail.com',
   password: 'anypassword',
 });
 
