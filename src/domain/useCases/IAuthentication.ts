@@ -1,9 +1,9 @@
-type AuthenticationParams = {
+export type AuthenticationParams = {
   email: string;
   password: string;
 };
 
-type AuthenticationResponse = {
+export type AuthenticationResponse = {
   name: string;
   email: string;
   token: string;
