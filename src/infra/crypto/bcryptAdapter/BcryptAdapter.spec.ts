@@ -79,5 +79,13 @@ describe('BcryptAdapter Test', () => {
 
       expect(response).toBe(false);
     });
+
+    it('should return true on bcrypt compare success', async () => {
+      const sut = makeSut();
+
+      const response = await sut.compare('anyvalue', 'hashedvalue');
+
+      expect(response).toBe(true);
+    });
   });
 });
