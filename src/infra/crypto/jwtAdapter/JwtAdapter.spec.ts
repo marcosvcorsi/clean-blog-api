@@ -21,4 +21,14 @@ describe('JwtAdapter Test', () => {
 
     expect(jwtSpy).toHaveBeenCalledWith({ id: 1 }, 'secret');
   });
+
+  it('should throw if jwj sign throws', async () => {
+    const sut = makeSut();
+
+    jest
+      .spyOn(jwt, 'sign')
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+
+    await expect(sut.encrypt(1)).rejects.toThrow();
+  });
 });
