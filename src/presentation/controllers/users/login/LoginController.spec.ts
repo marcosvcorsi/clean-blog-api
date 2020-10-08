@@ -1,4 +1,5 @@
 import { mockAuthentication } from '@/domain/test';
+import { serverError } from '@/presentation/helpers/http';
 import { LoginController } from './LoginController';
 
 const makeSut = () => {
@@ -26,5 +27,17 @@ describe('LoginController Test', () => {
     await sut.handle(request);
 
     expect(authSpy).toHaveBeenCalledWith(request.body);
+  });
+
+  it('should return serverError if Authentication throws', async () => {
+    const { sut, authenticationStub } = makeSut();
+
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(serverError(new Error()));
   });
 });
