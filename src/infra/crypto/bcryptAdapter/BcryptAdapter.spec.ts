@@ -59,5 +59,15 @@ describe('BcryptAdapter Test', () => {
 
       expect(compareSpy).toHaveBeenCalledWith('anyvalue', 'hashedvalue');
     });
+
+    it('should throw if bcrypt compare throws', async () => {
+      const sut = makeSut();
+
+      jest
+        .spyOn(bcrypt, 'compare')
+        .mockReturnValueOnce(Promise.reject(new Error()));
+
+      await expect(sut.compare('anyvalue', 'hashedvalue')).rejects.toThrow();
+    });
   });
 });
