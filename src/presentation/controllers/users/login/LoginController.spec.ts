@@ -1,5 +1,5 @@
-import { mockAuthentication } from '@/domain/test';
-import { serverError } from '@/presentation/helpers/http';
+import { mockAuthentication, mockAuthenticationResponse } from '@/domain/test';
+import { serverError, ok } from '@/presentation/helpers/http';
 import { LoginController } from './LoginController';
 
 const makeSut = () => {
@@ -39,5 +39,13 @@ describe('LoginController Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return ok with authentication response on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(ok(mockAuthenticationResponse()));
   });
 });
