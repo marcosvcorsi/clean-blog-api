@@ -6,6 +6,10 @@ jest.mock('bcrypt', () => ({
   async hash(): Promise<string> {
     return Promise.resolve('hashedvalue');
   },
+
+  async compare(): Promise<boolean> {
+    return Promise.resolve(true);
+  },
 }));
 
 const salt = 12;
@@ -15,29 +19,45 @@ const makeSut = () => {
 };
 
 describe('BcryptAdapter Test', () => {
-  it('should call bcrypt hash with correct value', async () => {
-    const sut = makeSut();
+  describe('hash()', () => {
+    it('should call bcrypt hash with correct value', async () => {
+      const sut = makeSut();
 
-    const hashSpy = jest.spyOn(bcrypt, 'hash');
+      const hashSpy = jest.spyOn(bcrypt, 'hash');
 
-    await sut.generate('anyvalue');
+      await sut.generate('anyvalue');
 
-    expect(hashSpy).toHaveBeenCalledWith('anyvalue', salt);
+      expect(hashSpy).toHaveBeenCalledWith('anyvalue', salt);
+    });
+
+    it('should throw if bcrypt hash throws', async () => {
+      const sut = makeSut();
+
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockReturnValueOnce(Promise.reject(new Error()));
+
+      await expect(sut.generate('anyvalue')).rejects.toThrow();
+    });
+
+    it('should return hash value on success', async () => {
+      const sut = makeSut();
+
+      const hashedValue = await sut.generate('anyvalue');
+
+      expect(hashedValue).toBe('hashedvalue');
+    });
   });
 
-  it('should throw if bcrypt hash throws', async () => {
-    const sut = makeSut();
+  describe('compare()', () => {
+    it('should call bcrypt compare with correct values', async () => {
+      const sut = makeSut();
 
-    jest.spyOn(bcrypt, 'hash').mockReturnValueOnce(Promise.reject(new Error()));
+      const compareSpy = jest.spyOn(bcrypt, 'compare');
 
-    await expect(sut.generate('anyvalue')).rejects.toThrow();
-  });
+      await sut.compare('anyvalue', 'hashedvalue');
 
-  it('should return hash value on success', async () => {
-    const sut = makeSut();
-
-    const hashedValue = await sut.generate('anyvalue');
-
-    expect(hashedValue).toBe('hashedvalue');
+      expect(compareSpy).toHaveBeenCalledWith('anyvalue', 'hashedvalue');
+    });
   });
 });
