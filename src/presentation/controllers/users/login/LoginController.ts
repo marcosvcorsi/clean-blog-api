@@ -1,5 +1,5 @@
 import { IAuthentication } from '@/domain/useCases/IAuthentication';
-import { ok, serverError } from '@/presentation/helpers/http';
+import { ok, serverError, unauthorized } from '@/presentation/helpers/http';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
 import { IController } from '@/presentation/protocols/IController';
 
@@ -14,6 +14,10 @@ export class LoginController implements IController {
         email,
         password,
       });
+
+      if (!authenticationResponse) {
+        return unauthorized();
+      }
 
       return ok(authenticationResponse);
     } catch (error) {
