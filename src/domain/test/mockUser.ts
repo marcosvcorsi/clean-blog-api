@@ -36,7 +36,7 @@ export const mockCreateUser = () => {
 
 export const mockAuthentication = () => {
   class AuthenticationStub implements IAuthentication {
-    async auth(): Promise<AuthenticationResponse> {
+    async auth(): Promise<AuthenticationResponse | null> {
       return mockAuthenticationResponse();
     }
   }

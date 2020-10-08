@@ -1,5 +1,5 @@
 import { mockAuthentication, mockAuthenticationResponse } from '@/domain/test';
-import { serverError, ok } from '@/presentation/helpers/http';
+import { serverError, ok, unauthorized } from '@/presentation/helpers/http';
 import { LoginController } from './LoginController';
 
 const makeSut = () => {
@@ -39,6 +39,18 @@ describe('LoginController Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return unauthorized when credential is invalid', async () => {
+    const { sut, authenticationStub } = makeSut();
+
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(Promise.resolve(null));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(unauthorized());
   });
 
   it('should return ok with authentication response on success', async () => {
