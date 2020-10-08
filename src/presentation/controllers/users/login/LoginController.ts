@@ -1,5 +1,5 @@
 import { IAuthentication } from '@/domain/useCases/IAuthentication';
-import { serverError } from '@/presentation/helpers/http';
+import { ok, serverError } from '@/presentation/helpers/http';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
 import { IController } from '@/presentation/protocols/IController';
 
@@ -10,9 +10,12 @@ export class LoginController implements IController {
     try {
       const { email, password } = httpRequest.body;
 
-      await this.authentication.auth({ email, password });
+      const authenticationResponse = await this.authentication.auth({
+        email,
+        password,
+      });
 
-      return {} as HttpResponse;
+      return ok(authenticationResponse);
     } catch (error) {
       return serverError(error);
     }
