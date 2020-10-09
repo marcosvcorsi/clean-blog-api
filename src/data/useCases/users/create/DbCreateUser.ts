@@ -2,7 +2,10 @@ import { IHasher } from '@/data/protocols/crypto/IHasher';
 import { IMail } from '@/data/protocols/mail/IMail';
 import { ICreateUserRepository } from '@/data/protocols/database/users/ICreateUserRepository';
 import { UserModel } from '@/domain/models/User';
-import { ICreateUser, CreateUserParams } from '@/domain/useCases/ICreateUser';
+import {
+  ICreateUser,
+  CreateUserParams,
+} from '@/domain/useCases/users/ICreateUser';
 
 export class DbCreateUser implements ICreateUser {
   constructor(

@@ -1,6 +1,6 @@
 import { ICreateUserRepository } from '@/data/protocols/database/users/ICreateUserRepository';
 import { ILoadUserByEmailRepository } from '@/data/protocols/database/users/ILoadUserByEmailRepository';
-import { CreateUserParams } from '@/domain/useCases/ICreateUser';
+import { CreateUserParams } from '@/domain/useCases/users/ICreateUser';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '../entities/User';
 

@@ -1,5 +1,5 @@
 import { UserModel } from '@/domain/models/User';
-import { AuthenticationParams } from '@/domain/useCases/IAuthentication';
+import { AuthenticationParams } from '@/domain/useCases/users/IAuthentication';
 import { mockUserModel } from '@/domain/test';
 import { IHasher } from '../protocols/crypto/IHasher';
 import { IMail } from '../protocols/mail/IMail';

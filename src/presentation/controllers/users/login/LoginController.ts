@@ -1,4 +1,4 @@
-import { IAuthentication } from '@/domain/useCases/IAuthentication';
+import { IAuthentication } from '@/domain/useCases/users/IAuthentication';
 import { ok, serverError, unauthorized } from '@/presentation/helpers/http';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
 import { IController } from '@/presentation/protocols/IController';

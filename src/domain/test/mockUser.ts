@@ -2,8 +2,8 @@ import { UserModel } from '../models/User';
 import {
   AuthenticationResponse,
   IAuthentication,
-} from '../useCases/IAuthentication';
-import { ICreateUser, CreateUserParams } from '../useCases/ICreateUser';
+} from '../useCases/users/IAuthentication';
+import { ICreateUser, CreateUserParams } from '../useCases/users/ICreateUser';
 
 export const mockUserModel = (): UserModel => ({
   id: 1,

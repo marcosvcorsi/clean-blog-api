@@ -1,4 +1,4 @@
-import { ICreateUser } from '@/domain/useCases/ICreateUser';
+import { ICreateUser } from '@/domain/useCases/users/ICreateUser';
 import { created, serverError } from '@/presentation/helpers/http';
 import { IController } from '@/presentation/protocols/IController';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
