@@ -32,4 +32,14 @@ describe('DbCreatePost Test', () => {
 
     expect(repositorySpy).toHaveBeenCalledWith(createPostParams);
   });
+
+  it('should throw if CreatePostRepository throws', async () => {
+    const { sut, createPostRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(createPostRepositoryStub, 'create')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.create(mockCreatePostParams())).rejects.toThrow();
+  });
 });
