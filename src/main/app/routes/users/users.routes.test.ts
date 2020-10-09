@@ -11,7 +11,7 @@ jest.mock('nodemailer', () => ({
     };
   },
 
-  async createTransport() {
+  createTransport() {
     return {
       sendMail: () => Promise.resolve({ messageId: 'any' }),
     };

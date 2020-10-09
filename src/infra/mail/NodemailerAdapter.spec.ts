@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer';
 import { MailParams } from '@/data/protocols/mail/IMail';
 import { NodemailerAdapter } from './NodemailerAdapter';
 
@@ -9,7 +10,7 @@ jest.mock('nodemailer', () => ({
     };
   },
 
-  async createTransport() {
+  createTransport() {
     return {
       sendMail: () => Promise.resolve({ messageId: 'any' }),
     };
@@ -19,7 +20,11 @@ jest.mock('nodemailer', () => ({
 }));
 
 const makeSut = () => {
-  return new NodemailerAdapter();
+  const clientStub = nodemailer.createTransport();
+
+  const sut = new NodemailerAdapter(clientStub);
+
+  return { sut, clientStub };
 };
 
 const mockMailParams = (): MailParams => ({
@@ -33,11 +38,9 @@ const mockMailParams = (): MailParams => ({
 
 describe('NodemailAdapter Test', () => {
   it('should call Nodemailer sendMail with correct values', async () => {
-    const sut = makeSut();
+    const { sut, clientStub } = makeSut();
 
-    const client = await sut.getTransporter();
-
-    const transportSpy = jest.spyOn(client, 'sendMail');
+    const transportSpy = jest.spyOn(clientStub, 'sendMail');
 
     await sut.sendMail(mockMailParams());
 
@@ -45,17 +48,17 @@ describe('NodemailAdapter Test', () => {
   });
 
   it('should throw if Nodemailer sendMail throws', async () => {
-    const sut = makeSut();
+    const { sut, clientStub } = makeSut();
 
-    const client = await sut.getTransporter();
-
-    jest.spyOn(client, 'sendMail').mockReturnValue(Promise.reject(new Error()));
+    jest
+      .spyOn(clientStub, 'sendMail')
+      .mockReturnValue(Promise.reject(new Error()));
 
     await expect(sut.sendMail(mockMailParams())).rejects.toThrow();
   });
 
   it('should send an email on success', async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
 
     await expect(sut.sendMail(mockMailParams())).resolves;
   });
