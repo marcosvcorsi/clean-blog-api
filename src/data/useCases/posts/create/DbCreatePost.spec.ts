@@ -2,6 +2,7 @@ import MockDate from 'mockdate';
 import {
   mockCreatePostParams,
   mockCreatePostRepository,
+  mockPostModel,
 } from '@/data/test/mockPost';
 import { DbCreatePost } from './DbCreatePost';
 
@@ -41,5 +42,13 @@ describe('DbCreatePost Test', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.create(mockCreatePostParams())).rejects.toThrow();
+  });
+
+  it('should return a post model on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.create(mockCreatePostParams());
+
+    expect(response).toEqual(mockPostModel());
   });
 });
