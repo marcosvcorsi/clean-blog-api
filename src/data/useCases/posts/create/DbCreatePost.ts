@@ -9,8 +9,8 @@ export class DbCreatePost implements ICreatePost {
   constructor(private readonly createPostRepository: ICreatePostRepository) {}
 
   async create(data: CreatePostParams): Promise<PostModel> {
-    await this.createPostRepository.create(data);
+    const post = await this.createPostRepository.create(data);
 
-    return {} as PostModel;
+    return post;
   }
 }
