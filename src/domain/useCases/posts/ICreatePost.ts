@@ -1,9 +1,10 @@
 import { PostModel } from '@/domain/models/Post';
 
-type CreatePostParams = {
+export type CreatePostParams = {
   title: string;
   content: string;
   userId: number;
+  date: Date;
 };
 
 export interface ICreatePost {
