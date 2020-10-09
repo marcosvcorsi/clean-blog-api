@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import {
   mockCreatePostParams,
   mockCreatePostRepository,
@@ -12,6 +13,14 @@ const makeSut = () => {
 };
 
 describe('DbCreatePost Test', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   it('should call CreatePostRepository with correct values', async () => {
     const { sut, createPostRepositoryStub } = makeSut();
 
