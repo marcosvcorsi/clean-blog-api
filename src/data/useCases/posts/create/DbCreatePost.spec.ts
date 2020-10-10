@@ -3,14 +3,17 @@ import {
   mockCreatePostParams,
   mockCreatePostRepository,
   mockPostModel,
-} from '@/data/test/mockPost';
+  mockClearCache,
+} from '@/data/test';
 import { DbCreatePost } from './DbCreatePost';
 
 const makeSut = () => {
   const createPostRepositoryStub = mockCreatePostRepository();
-  const sut = new DbCreatePost(createPostRepositoryStub);
+  const clearCacheStub = mockClearCache();
 
-  return { sut, createPostRepositoryStub };
+  const sut = new DbCreatePost(createPostRepositoryStub, clearCacheStub);
+
+  return { sut, createPostRepositoryStub, clearCacheStub };
 };
 
 describe('DbCreatePost Test', () => {
@@ -42,6 +45,18 @@ describe('DbCreatePost Test', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.create(mockCreatePostParams())).rejects.toThrow();
+  });
+
+  it('should call ClearCache clear with correct value', async () => {
+    const { sut, clearCacheStub } = makeSut();
+
+    const cacheSpy = jest.spyOn(clearCacheStub, 'clear');
+
+    const createPostParams = mockCreatePostParams();
+
+    await sut.create(createPostParams);
+
+    expect(cacheSpy).toHaveBeenCalledWith(`posts:${createPostParams.userId}`);
   });
 
   it('should return a post model on success', async () => {
