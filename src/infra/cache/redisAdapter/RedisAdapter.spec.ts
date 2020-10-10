@@ -21,4 +21,14 @@ describe('RedisAdapter Test', () => {
 
     expect(clearSpy).toHaveBeenCalledWith('anykey');
   });
+
+  it('should throw if RedisClient del throws', async () => {
+    const { sut, clientStub } = makeSut();
+
+    jest
+      .spyOn(clientStub, 'del')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.clear('anykey')).rejects.toThrow();
+  });
 });
