@@ -59,6 +59,16 @@ describe('DbCreatePost Test', () => {
     expect(cacheSpy).toHaveBeenCalledWith(`posts:${createPostParams.userId}`);
   });
 
+  it('should throw if ClearCache throws', async () => {
+    const { sut, clearCacheStub } = makeSut();
+
+    jest
+      .spyOn(clearCacheStub, 'clear')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    expect(sut.create(mockCreatePostParams())).rejects.toThrow();
+  });
+
   it('should return a post model on success', async () => {
     const { sut } = makeSut();
 
