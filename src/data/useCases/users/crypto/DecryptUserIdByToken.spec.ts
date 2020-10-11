@@ -29,6 +29,18 @@ describe('DecryptUserIdByToken Test', () => {
     await expect(sut.loadUserId('anytoken')).rejects.toThrow();
   });
 
+  it('should return null if Decrypter decrypt returns null', async () => {
+    const { sut, decrypterStub } = makeSut();
+
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(Promise.resolve(null));
+
+    const response = await sut.loadUserId('anytoken');
+
+    expect(response).toBeNull();
+  });
+
   it('should return userId on success', async () => {
     const { sut } = makeSut();
 
