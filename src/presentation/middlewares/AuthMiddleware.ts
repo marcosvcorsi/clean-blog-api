@@ -23,7 +23,7 @@ export class AuthMiddleware implements IMiddleware {
         return forbidden(new AccessDeniedError());
       }
 
-      return ok({ userId: 1 });
+      return ok({ userId });
     } catch (error) {
       return serverError(error);
     }
