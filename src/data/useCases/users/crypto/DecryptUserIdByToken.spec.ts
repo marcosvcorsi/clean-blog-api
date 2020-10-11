@@ -18,4 +18,14 @@ describe('DecryptUserIdByToken Test', () => {
 
     expect(decryptSpy).toHaveBeenCalledWith('anytoken');
   });
+
+  it('should throw if Decrypt decrypt throws', async () => {
+    const { sut, decrypterStub } = makeSut();
+
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.loadUserId('anytoken')).rejects.toThrow();
+  });
 });
