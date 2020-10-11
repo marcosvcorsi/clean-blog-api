@@ -17,7 +17,11 @@ export class AuthMiddleware implements IMiddleware {
 
       const [, token] = accessToken.split(' ');
 
-      await this.loadUserIdByToken.loadUserId(token);
+      const userId = await this.loadUserIdByToken.loadUserId(token);
+
+      if (!userId) {
+        return forbidden(new AccessDeniedError());
+      }
 
       return ok({ userId: 1 });
     } catch (error) {
