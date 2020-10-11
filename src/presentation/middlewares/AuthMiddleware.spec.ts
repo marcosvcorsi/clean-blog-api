@@ -9,10 +9,18 @@ const makeSut = () => {
 };
 
 describe('AuthMiddleware Test', () => {
-  it('should return forbidden if no Authorization was provided', async () => {
+  it('should return forbidden if no headers was provided', async () => {
     const { sut } = makeSut();
 
     const response = await sut.handle({});
+
+    expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  it('should return forbidden if no authorization was provided', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle({ headers: {} });
 
     expect(response).toEqual(forbidden(new AccessDeniedError()));
   });
