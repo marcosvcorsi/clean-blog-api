@@ -1,6 +1,6 @@
 import { mockLoadUserIdByToken } from '@/domain/test';
 import { AccessDeniedError } from '../errors/AccessDeniedError';
-import { forbidden, serverError } from '../helpers/http';
+import { forbidden, ok, serverError } from '../helpers/http';
 import { AuthMiddleware } from './AuthMiddleware';
 
 const makeSut = () => {
@@ -65,5 +65,13 @@ describe('AuthMiddleware Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  it('should return ok with userId on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(ok({ userId: 1 }));
   });
 });
