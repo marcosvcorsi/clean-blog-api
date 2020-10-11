@@ -28,4 +28,12 @@ describe('DecryptUserIdByToken Test', () => {
 
     await expect(sut.loadUserId('anytoken')).rejects.toThrow();
   });
+
+  it('should return userId on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.loadUserId('anytoken');
+
+    expect(response).toBe(1);
+  });
 });
