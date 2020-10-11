@@ -68,5 +68,13 @@ describe('JwtAdapter Test', () => {
 
       expect(response).toBeNull();
     });
+
+    it('should return a payload on success', async () => {
+      const sut = makeSut();
+
+      const response = await sut.decrypt('anytoken');
+
+      expect(response).toEqual({ userId: 1 });
+    });
   });
 });
