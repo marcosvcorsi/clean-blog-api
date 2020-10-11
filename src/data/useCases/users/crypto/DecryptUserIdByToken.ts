@@ -5,7 +5,14 @@ export class DecryptUserIdByToken implements ILoadUserIdByToken {
   constructor(private readonly decrypter: IDecrypter) {}
 
   async loadUserId(token: string): Promise<number | null> {
-    await this.decrypter.decrypt(token);
+    const payload = await this.decrypter.decrypt(token);
+
+    if (payload) {
+      const { userId } = payload;
+
+      return userId;
+    }
+
     return null;
   }
 }
