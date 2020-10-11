@@ -4,6 +4,7 @@ import {
   IAuthentication,
 } from '../useCases/users/IAuthentication';
 import { ICreateUser, CreateUserParams } from '../useCases/users/ICreateUser';
+import { ILoadUserIdByToken } from '../useCases/users/ILoadUserIdByToken';
 
 export const mockUserModel = (): UserModel => ({
   id: 1,
@@ -42,4 +43,14 @@ export const mockAuthentication = () => {
   }
 
   return new AuthenticationStub();
+};
+
+export const mockLoadUserIdByToken = () => {
+  class LoadUserIdByTokenStub implements ILoadUserIdByToken {
+    async loadUserId(): Promise<number | null> {
+      return 1;
+    }
+  }
+
+  return new LoadUserIdByTokenStub();
 };
