@@ -1,6 +1,6 @@
 import { mockLoadUserIdByToken } from '@/domain/test';
 import { AccessDeniedError } from '../errors/AccessDeniedError';
-import { forbidden } from '../helpers/http';
+import { forbidden, serverError } from '../helpers/http';
 import { AuthMiddleware } from './AuthMiddleware';
 
 const makeSut = () => {
@@ -41,5 +41,17 @@ describe('AuthMiddleware Test', () => {
     await sut.handle(mockRequest());
 
     expect(loadUserIdSpy).toHaveBeenCalledWith('anytoken');
+  });
+
+  it('should return serverError if LoadUserIdByToken throws', async () => {
+    const { sut, loadUserIdByTokenStub } = makeSut();
+
+    jest
+      .spyOn(loadUserIdByTokenStub, 'loadUserId')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(serverError(new Error()));
   });
 });
