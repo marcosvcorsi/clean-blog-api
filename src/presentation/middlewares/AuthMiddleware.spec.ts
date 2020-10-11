@@ -54,4 +54,16 @@ describe('AuthMiddleware Test', () => {
 
     expect(response).toEqual(serverError(new Error()));
   });
+
+  it('should return forbidden if LoadUserIdByToken returns null', async () => {
+    const { sut, loadUserIdByTokenStub } = makeSut();
+
+    jest
+      .spyOn(loadUserIdByTokenStub, 'loadUserId')
+      .mockReturnValueOnce(Promise.resolve(null));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(forbidden(new AccessDeniedError()));
+  });
 });
