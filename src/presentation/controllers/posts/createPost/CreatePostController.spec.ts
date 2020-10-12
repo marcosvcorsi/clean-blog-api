@@ -1,7 +1,8 @@
 import MockDate from 'mockdate';
 import { mockCreatePost } from '@/domain/test';
-import { serverError } from '@/presentation/helpers/http';
+import { created, serverError } from '@/presentation/helpers/http';
 import { HttpRequest } from '@/presentation/protocols/Http';
+import { mockPostModel } from '@/data/test';
 import { CreatePostController } from './CreatePostController';
 
 const makeSut = () => {
@@ -58,5 +59,13 @@ describe('CreatePostController Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return created with a post on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(created(mockPostModel()));
   });
 });
