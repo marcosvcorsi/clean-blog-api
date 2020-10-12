@@ -1,5 +1,6 @@
 import MockDate from 'mockdate';
 import { mockCreatePost } from '@/domain/test';
+import { serverError } from '@/presentation/helpers/http';
 import { HttpRequest } from '@/presentation/protocols/Http';
 import { CreatePostController } from './CreatePostController';
 
@@ -45,5 +46,17 @@ describe('CreatePostController Test', () => {
       content,
       date: new Date(),
     });
+  });
+
+  it('should return serverError if CreatePost throws', async () => {
+    const { sut, createPostStub } = makeSut();
+
+    jest
+      .spyOn(createPostStub, 'create')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(serverError(new Error()));
   });
 });
