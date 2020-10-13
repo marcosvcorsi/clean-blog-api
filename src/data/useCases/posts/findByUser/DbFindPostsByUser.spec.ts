@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import { mockLoadCache, mockPostModelList } from '@/data/test';
 import { DbFindPostsByUser } from './DbFindPostsByUser';
 
@@ -9,6 +10,14 @@ const makeSut = () => {
 };
 
 describe('DbFindPostsByUser Tests', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   it('should call LoadCache with correct value', async () => {
     const { sut, loadCacheStub } = makeSut();
 
