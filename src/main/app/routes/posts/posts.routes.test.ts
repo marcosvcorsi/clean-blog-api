@@ -1,6 +1,9 @@
 import request from 'supertest';
-import { Connection } from 'typeorm';
+import { sign } from 'jsonwebtoken';
+import { Connection, getRepository } from 'typeorm';
 import createConnection from '@/infra/database/typeorm/connection';
+import { User } from '@/infra/database/typeorm/entities/User';
+import authConfig from '@/main/config/auth';
 import app from '../../index';
 
 let connection: Connection;
@@ -31,5 +34,31 @@ describe('Posts Routes Test', () => {
     });
 
     expect(response.status).toBe(403);
+  });
+
+  it('should create a new post on POST /posts', async () => {
+    const userRepository = getRepository(User);
+
+    const fakeUser = userRepository.create({
+      name: 'anyname',
+      email: 'anymail@mail.com',
+      password: 'anypassword',
+    });
+
+    await userRepository.save(fakeUser);
+
+    const token = await sign({ userId: fakeUser.id }, authConfig.secret);
+
+    const response = await request(app)
+      .post('/posts')
+      .send({
+        title: 'anytitle',
+        content: 'anycontent',
+      })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toBeTruthy();
+    expect(response.body).toHaveProperty('id');
   });
 });
