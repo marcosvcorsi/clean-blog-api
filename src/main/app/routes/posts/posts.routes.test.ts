@@ -5,6 +5,8 @@ import app from '../../index';
 
 let connection: Connection;
 
+jest.mock('ioredis');
+
 describe('Posts Routes Test', () => {
   beforeAll(async () => {
     connection = await createConnection();
