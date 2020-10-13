@@ -1,4 +1,4 @@
-import { mockLoadCache } from '@/data/test';
+import { mockLoadCache, mockPostModelList } from '@/data/test';
 import { DbFindPostsByUser } from './DbFindPostsByUser';
 
 const makeSut = () => {
@@ -27,5 +27,17 @@ describe('DbFindPostsByUser Tests', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.findByUser(1)).rejects.toThrow();
+  });
+
+  it('should return posts if LoadCache returns posts', async () => {
+    const { sut, loadCacheStub } = makeSut();
+
+    jest
+      .spyOn(loadCacheStub, 'load')
+      .mockReturnValueOnce(Promise.resolve(mockPostModelList()));
+
+    const response = await sut.findByUser(1);
+
+    expect(response).toEqual(mockPostModelList());
   });
 });
