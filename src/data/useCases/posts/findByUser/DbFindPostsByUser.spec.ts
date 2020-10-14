@@ -1,12 +1,21 @@
 import MockDate from 'mockdate';
-import { mockLoadCache, mockPostModelList } from '@/data/test';
+import {
+  mockFindPostsByUserRepository,
+  mockLoadCache,
+  mockPostModelList,
+} from '@/data/test';
 import { DbFindPostsByUser } from './DbFindPostsByUser';
 
 const makeSut = () => {
   const loadCacheStub = mockLoadCache();
-  const sut = new DbFindPostsByUser(loadCacheStub);
+  const findPostsByUserRepositoryStub = mockFindPostsByUserRepository();
 
-  return { sut, loadCacheStub };
+  const sut = new DbFindPostsByUser(
+    loadCacheStub,
+    findPostsByUserRepositoryStub,
+  );
+
+  return { sut, loadCacheStub, findPostsByUserRepositoryStub };
 };
 
 describe('DbFindPostsByUser Tests', () => {
@@ -48,5 +57,18 @@ describe('DbFindPostsByUser Tests', () => {
     const response = await sut.findByUser(1);
 
     expect(response).toEqual(mockPostModelList());
+  });
+
+  it('should call FindPostsByUserRepository with correct value', async () => {
+    const { sut, findPostsByUserRepositoryStub } = makeSut();
+
+    const repositorySpy = jest.spyOn(
+      findPostsByUserRepositoryStub,
+      'findByUser',
+    );
+
+    await sut.findByUser(1);
+
+    expect(repositorySpy).toHaveBeenCalledWith(1);
   });
 });

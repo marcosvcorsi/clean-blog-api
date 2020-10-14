@@ -1,5 +1,6 @@
 import { PostModel } from '@/domain/models/Post';
 import { ICreatePostRepository } from '../protocols/database/posts/ICreatePostRepository';
+import { IFindPostsByUserRepository } from '../protocols/database/posts/IFindPostsByUserRepository';
 
 export const mockCreatePostParams = () => ({
   title: 'anytitle',
@@ -42,4 +43,14 @@ export const mockCreatePostRepository = () => {
   }
 
   return new CreatePostRepositoryStub();
+};
+
+export const mockFindPostsByUserRepository = () => {
+  class FindPostsByUserRepositoryStub implements IFindPostsByUserRepository {
+    async findByUser(): Promise<PostModel[]> {
+      return mockPostModelList();
+    }
+  }
+
+  return new FindPostsByUserRepositoryStub();
 };
