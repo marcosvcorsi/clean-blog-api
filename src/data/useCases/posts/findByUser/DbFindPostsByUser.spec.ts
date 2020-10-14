@@ -71,4 +71,14 @@ describe('DbFindPostsByUser Tests', () => {
 
     expect(repositorySpy).toHaveBeenCalledWith(1);
   });
+
+  it('should throw if FindPostsByUserRepository throws', async () => {
+    const { sut, findPostsByUserRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(findPostsByUserRepositoryStub, 'findByUser')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.findByUser(1)).rejects.toThrow();
+  });
 });
