@@ -102,4 +102,14 @@ describe('DbFindPostsByUser Tests', () => {
 
     expect(saveCacheSpy).toHaveBeenCalledWith(mockPostModelList());
   });
+
+  it('should throw if SaveCache throws', async () => {
+    const { sut, saveCacheStub } = makeSut();
+
+    jest
+      .spyOn(saveCacheStub, 'save')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.findByUser(1)).rejects.toThrow();
+  });
 });
