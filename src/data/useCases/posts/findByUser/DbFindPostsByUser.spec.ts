@@ -81,4 +81,12 @@ describe('DbFindPostsByUser Tests', () => {
 
     await expect(sut.findByUser(1)).rejects.toThrow();
   });
+
+  it('should reutrn posts if FindPostsByUserRepository return posts', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.findByUser(1);
+
+    expect(response).toEqual(mockPostModelList());
+  });
 });
