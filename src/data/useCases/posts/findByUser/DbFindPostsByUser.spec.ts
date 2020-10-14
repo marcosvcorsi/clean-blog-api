@@ -3,19 +3,22 @@ import {
   mockFindPostsByUserRepository,
   mockLoadCache,
   mockPostModelList,
+  mockSaveCache,
 } from '@/data/test';
 import { DbFindPostsByUser } from './DbFindPostsByUser';
 
 const makeSut = () => {
   const loadCacheStub = mockLoadCache();
   const findPostsByUserRepositoryStub = mockFindPostsByUserRepository();
+  const saveCacheStub = mockSaveCache();
 
   const sut = new DbFindPostsByUser(
     loadCacheStub,
     findPostsByUserRepositoryStub,
+    saveCacheStub,
   );
 
-  return { sut, loadCacheStub, findPostsByUserRepositoryStub };
+  return { sut, loadCacheStub, findPostsByUserRepositoryStub, saveCacheStub };
 };
 
 describe('DbFindPostsByUser Tests', () => {
@@ -82,11 +85,21 @@ describe('DbFindPostsByUser Tests', () => {
     await expect(sut.findByUser(1)).rejects.toThrow();
   });
 
-  it('should reutrn posts if FindPostsByUserRepository return posts', async () => {
+  it('should return posts if FindPostsByUserRepository return posts', async () => {
     const { sut } = makeSut();
 
     const response = await sut.findByUser(1);
 
     expect(response).toEqual(mockPostModelList());
+  });
+
+  it('should call SaveCache with correct values', async () => {
+    const { sut, saveCacheStub } = makeSut();
+
+    const saveCacheSpy = jest.spyOn(saveCacheStub, 'save');
+
+    await sut.findByUser(1);
+
+    expect(saveCacheSpy).toHaveBeenCalledWith(mockPostModelList());
   });
 });

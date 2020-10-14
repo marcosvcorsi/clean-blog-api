@@ -1,5 +1,6 @@
 import { IClearCache } from '../protocols/cache/IClearCache';
 import { ILoadCache } from '../protocols/cache/ILoadCache';
+import { ISaveCache } from '../protocols/cache/ISaveCache';
 
 export const mockClearCache = () => {
   class ClearCacheStub implements IClearCache {
@@ -19,4 +20,14 @@ export const mockLoadCache = () => {
   }
 
   return new LoadCacheStub();
+};
+
+export const mockSaveCache = () => {
+  class SaveCacheStub implements ISaveCache {
+    async save(): Promise<void> {
+      return Promise.resolve();
+    }
+  }
+
+  return new SaveCacheStub();
 };
