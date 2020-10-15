@@ -70,5 +70,15 @@ describe('RedisAdapter Test', () => {
 
       expect(getSpy).toHaveBeenCalledWith('anykey');
     });
+
+    it('should throw if RedisClient get throws', async () => {
+      const { sut, clientStub } = makeSut();
+
+      jest
+        .spyOn(clientStub, 'get')
+        .mockReturnValueOnce(Promise.reject(new Error()));
+
+      await expect(sut.load('anykey')).rejects.toThrow();
+    });
   });
 });
