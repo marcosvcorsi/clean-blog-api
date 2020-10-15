@@ -38,4 +38,4 @@ jobs:
 
       # executar build
       - name: Run Unit Tests
-        run: yarn test:unit
+        run: yarn test:unit:ci

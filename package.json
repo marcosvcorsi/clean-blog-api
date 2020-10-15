@@ -9,6 +9,7 @@
     "test": "cross-env NODE_ENV=test jest --silent --noStackTrace --passWithNoTests --runInBand --forceExit",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test spec.ts --watch",
+    "test:unit:ci": "yarn test spec.ts",
     "test:integration": "yarn test test.ts --watch",
     "test:staged": "yarn test --findRelatedTests",
     "test:ci": "yarn test --coverage"
