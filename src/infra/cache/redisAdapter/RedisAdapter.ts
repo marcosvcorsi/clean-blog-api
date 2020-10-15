@@ -19,6 +19,6 @@ export class RedisAdapter implements IClearCache, ISaveCache, ILoadCache {
 
     if (!data) return null;
 
-    return {} as T;
+    return JSON.parse(data);
   }
 }
