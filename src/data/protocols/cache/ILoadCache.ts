@@ -1,3 +1,3 @@
 export interface ILoadCache {
-  load<T>(key: string): Promise<T>;
+  load<T>(key: string): Promise<T | null>;
 }

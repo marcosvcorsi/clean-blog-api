@@ -14,8 +14,10 @@ export class RedisAdapter implements IClearCache, ISaveCache, ILoadCache {
     await this.client.set(key, JSON.stringify(data));
   }
 
-  async load<T>(key: string): Promise<T> {
-    await this.client.get(key);
+  async load<T>(key: string): Promise<T | null> {
+    const data = await this.client.get(key);
+
+    if (!data) return null;
 
     return {} as T;
   }
