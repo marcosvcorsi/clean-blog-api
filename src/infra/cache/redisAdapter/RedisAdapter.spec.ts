@@ -35,7 +35,7 @@ describe('RedisAdapter Test', () => {
   });
 
   describe('save()', () => {
-    it('should call RedisCliente set with correct values', async () => {
+    it('should call RedisClient set with correct values', async () => {
       const { sut, clientStub } = makeSut();
 
       const setSpy = jest.spyOn(clientStub, 'set');
@@ -45,6 +45,18 @@ describe('RedisAdapter Test', () => {
       await sut.save('anykey', data);
 
       expect(setSpy).toHaveBeenCalledWith('anykey', JSON.stringify(data));
+    });
+
+    it('should throw if RedisClient set throws', async () => {
+      const { sut, clientStub } = makeSut();
+
+      jest
+        .spyOn(clientStub, 'set')
+        .mockImplementationOnce(() => Promise.reject(new Error()));
+
+      const data = { id: 1, value: 'anyvalue' };
+
+      await expect(sut.save('anykey', data)).rejects.toThrow();
     });
   });
 });
