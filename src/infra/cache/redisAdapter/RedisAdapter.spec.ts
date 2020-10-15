@@ -59,4 +59,16 @@ describe('RedisAdapter Test', () => {
       await expect(sut.save('anykey', data)).rejects.toThrow();
     });
   });
+
+  describe('load()', () => {
+    it('should call RedisClient get with correct value', async () => {
+      const { sut, clientStub } = makeSut();
+
+      const getSpy = jest.spyOn(clientStub, 'get');
+
+      await sut.load('anykey');
+
+      expect(getSpy).toHaveBeenCalledWith('anykey');
+    });
+  });
 });
