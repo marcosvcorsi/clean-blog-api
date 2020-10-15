@@ -24,7 +24,7 @@ describe('Posts Routes Test', () => {
     await connection.query('DELETE FROM posts');
     await connection.query('DELETE FROM users');
 
-    await connection.close();
+    // await connection.close();
   });
 
   it('should return forbidden on POST /posts without Authorization', async () => {
