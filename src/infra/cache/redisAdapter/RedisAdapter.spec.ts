@@ -90,5 +90,19 @@ describe('RedisAdapter Test', () => {
 
       expect(response).toBeNull();
     });
+
+    it('should return parsed object on success', async () => {
+      const { sut, clientStub } = makeSut();
+
+      const data = { value: 'anycontent' };
+
+      jest
+        .spyOn(clientStub, 'get')
+        .mockReturnValueOnce(Promise.resolve(JSON.stringify(data)));
+
+      const response = await sut.load('anykey');
+
+      expect(response).toEqual(data);
+    });
   });
 });
