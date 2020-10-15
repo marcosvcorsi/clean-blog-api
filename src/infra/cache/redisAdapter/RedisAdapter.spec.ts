@@ -80,5 +80,15 @@ describe('RedisAdapter Test', () => {
 
       await expect(sut.load('anykey')).rejects.toThrow();
     });
+
+    it('should return null if RedisClient returns null', async () => {
+      const { sut, clientStub } = makeSut();
+
+      jest.spyOn(clientStub, 'get').mockReturnValueOnce(Promise.resolve(null));
+
+      const response = await sut.load('anykey');
+
+      expect(response).toBeNull();
+    });
   });
 });
