@@ -12,12 +12,13 @@ export class DbFindPostsByUser implements IFindPostsByUser {
   ) {}
 
   async findByUser(userId: number): Promise<PostModel[]> {
-    let posts = await this.loadCache.load<PostModel[]>(`posts:${userId}`);
+    const cacheKey = `posts:${userId}`;
+    let posts = await this.loadCache.load<PostModel[]>(cacheKey);
 
     if (!posts) {
       posts = await this.findPostsByUserRepository.findByUser(userId);
 
-      await this.saveCache.save(posts);
+      await this.saveCache.save(cacheKey, posts);
     }
 
     return posts;

@@ -1,3 +1,3 @@
 export interface ISaveCache {
-  save(data: any): Promise<void>;
+  save(key: string, data: any): Promise<void>;
 }

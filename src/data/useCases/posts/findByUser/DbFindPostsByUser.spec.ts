@@ -100,7 +100,7 @@ describe('DbFindPostsByUser Tests', () => {
 
     await sut.findByUser(1);
 
-    expect(saveCacheSpy).toHaveBeenCalledWith(mockPostModelList());
+    expect(saveCacheSpy).toHaveBeenCalledWith('posts:1', mockPostModelList());
   });
 
   it('should throw if SaveCache throws', async () => {
