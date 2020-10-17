@@ -63,4 +63,12 @@ describe('Posts Routes Test', () => {
       expect(response.body).toHaveProperty('id');
     });
   });
+
+  describe('GET /posts', () => {
+    it('should return forbidden on GET /posts withou authorization', async () => {
+      const response = await request(app).get('/posts');
+
+      expect(response.status).toBe(403);
+    });
+  });
 });
