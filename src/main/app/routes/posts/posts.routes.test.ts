@@ -10,6 +10,24 @@ let connection: Connection;
 
 jest.mock('ioredis');
 
+const mockUserToken = async () => {
+  const userRepository = getRepository(User);
+
+  const fakeUser = userRepository.create({
+    name: 'anyname',
+    email: 'anymail@mail.com',
+    password: 'anypassword',
+  });
+
+  await userRepository.save(fakeUser);
+
+  const userId = fakeUser.id;
+
+  const token = await sign({ userId }, authConfig.secret);
+
+  return { token, userId };
+};
+
 describe('Posts Routes Test', () => {
   beforeAll(async () => {
     connection = await createConnection();
@@ -38,17 +56,7 @@ describe('Posts Routes Test', () => {
     });
 
     it('should create a new post on POST /posts', async () => {
-      const userRepository = getRepository(User);
-
-      const fakeUser = userRepository.create({
-        name: 'anyname',
-        email: 'anymail@mail.com',
-        password: 'anypassword',
-      });
-
-      await userRepository.save(fakeUser);
-
-      const token = await sign({ userId: fakeUser.id }, authConfig.secret);
+      const { token, userId } = await mockUserToken();
 
       const response = await request(app)
         .post('/posts')
@@ -61,11 +69,12 @@ describe('Posts Routes Test', () => {
       expect(response.status).toBe(201);
       expect(response.body).toBeTruthy();
       expect(response.body).toHaveProperty('id');
+      expect(response.body.userId).toBe(userId);
     });
   });
 
   describe('GET /posts', () => {
-    it('should return forbidden on GET /posts withou authorization', async () => {
+    it('should return forbidden on GET /posts without authorization', async () => {
       const response = await request(app).get('/posts');
 
       expect(response.status).toBe(403);
