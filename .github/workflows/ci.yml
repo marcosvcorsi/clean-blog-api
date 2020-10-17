@@ -33,9 +33,9 @@ jobs:
             ${{ runner.os }}-yarn-
 
       # instalar as dependencias
-      - name: Install dependencias
+      - name: Install dependencies
         run: yarn
 
       # executar build
-      - name: Run Unit Tests
+      - name: Run Tests
         run: yarn test:ci
