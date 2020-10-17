@@ -1,5 +1,6 @@
+import { mockPostModelList } from '@/data/test';
 import { mockFindPostsByUser } from '@/domain/test';
-import { serverError } from '@/presentation/helpers/http';
+import { ok, serverError } from '@/presentation/helpers/http';
 import { HttpRequest } from '@/presentation/protocols/Http';
 import { FindPostsByUserController } from './FindPostsByUserController';
 
@@ -37,5 +38,13 @@ describe('FindPostsByUserController Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return posts on success', async () => {
+    const { sut } = makeSut();
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(ok(mockPostModelList()));
   });
 });
