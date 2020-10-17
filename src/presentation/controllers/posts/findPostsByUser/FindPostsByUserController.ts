@@ -1,5 +1,5 @@
 import { IFindPostsByUser } from '@/domain/useCases/posts/IFindPostsByUser';
-import { serverError } from '@/presentation/helpers/http';
+import { ok, serverError } from '@/presentation/helpers/http';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
 import { IController } from '@/presentation/protocols/IController';
 
@@ -10,9 +10,9 @@ export class FindPostsByUserController implements IController {
     try {
       const { userId } = httpRequest;
 
-      await this.findPostsByUser.findByUser(Number(userId));
+      const posts = await this.findPostsByUser.findByUser(Number(userId));
 
-      return {} as HttpResponse;
+      return ok(posts);
     } catch (error) {
       return serverError(error);
     }
