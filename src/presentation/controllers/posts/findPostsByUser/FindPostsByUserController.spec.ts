@@ -1,4 +1,5 @@
 import { mockFindPostsByUser } from '@/domain/test';
+import { serverError } from '@/presentation/helpers/http';
 import { HttpRequest } from '@/presentation/protocols/Http';
 import { FindPostsByUserController } from './FindPostsByUserController';
 
@@ -24,5 +25,17 @@ describe('FindPostsByUserController Test', () => {
     await sut.handle(request);
 
     expect(findPostsSpy).toHaveBeenCalledWith(request.userId);
+  });
+
+  it('should return serverError if FindPostsByUser throws', async () => {
+    const { sut, findPostsByUserStub } = makeSut();
+
+    jest
+      .spyOn(findPostsByUserStub, 'findByUser')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(serverError(new Error()));
   });
 });
