@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --respawn --ignore-watch node_modules src/main/server.ts",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "pretest": "yarn typeorm migration:run -c test",
@@ -16,6 +17,13 @@
     "test:ci": "yarn test --coverage"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-decorators": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@types/bcrypt": "^3.0.0",
@@ -28,6 +36,8 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.1",
     "cross-env": "^7.0.2",
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",
