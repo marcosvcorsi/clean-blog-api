@@ -45,6 +45,16 @@ describe('DbCreateUser Test', () => {
     expect(repositorySpy).toHaveBeenCalledWith(createUserParams.email);
   });
 
+  it('should throw if LoadUserByEmailRepository throws', async () => {
+    const { sut, loadUserByEmailRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(loadUserByEmailRepositoryStub, 'loadByEmail')
+      .mockReturnValueOnce(Promise.reject(new Error()));
+
+    await expect(sut.create(mockCreateUserParams())).rejects.toThrow();
+  });
+
   it('should call CreateUserRepository with correct values', async () => {
     const { sut, createUserRepositoryStub } = makeSut();
 
