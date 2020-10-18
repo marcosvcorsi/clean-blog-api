@@ -1,7 +1,8 @@
 import { ICreateUser } from '@/domain/useCases/users/ICreateUser';
-import { created, serverError } from '@/presentation/helpers/http';
+import { badRequest, created, serverError } from '@/presentation/helpers/http';
 import { IController } from '@/presentation/protocols/IController';
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/Http';
+import { EmailInUseError } from '@/presentation/errors/EmailInUseError';
 
 export class CreateUserController implements IController {
   constructor(private readonly createUser: ICreateUser) {}
@@ -11,6 +12,10 @@ export class CreateUserController implements IController {
       const { email, name, password } = httpRequest.body;
 
       const user = await this.createUser.create({ email, name, password });
+
+      if (!user) {
+        return badRequest(new EmailInUseError());
+      }
 
       return created({ name: user.name, email: user.email });
     } catch (error) {
