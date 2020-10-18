@@ -16,5 +16,10 @@ export const makeDbCreateUser = () => {
   const client = nodemailer.createTransport(mailConfig);
   const nodemailerAdapter = new NodemailerAdapter(client);
 
-  return new DbCreateUser(bcryptAdapter, usersRepository, nodemailerAdapter);
+  return new DbCreateUser(
+    usersRepository,
+    bcryptAdapter,
+    usersRepository,
+    nodemailerAdapter,
+  );
 };
