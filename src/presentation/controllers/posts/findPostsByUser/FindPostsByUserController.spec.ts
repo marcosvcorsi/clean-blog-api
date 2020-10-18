@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import { mockPostModelList } from '@/data/test';
 import { mockFindPostsByUser } from '@/domain/test';
 import { ok, serverError } from '@/presentation/helpers/http';
@@ -16,6 +17,14 @@ const mockRequest = (): HttpRequest => ({
 });
 
 describe('FindPostsByUserController Test', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   it('should call FindPostsByUser with correct value', async () => {
     const { sut, findPostsByUserStub } = makeSut();
 
