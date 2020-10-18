@@ -16,10 +16,14 @@ export class DbCreateUser implements ICreateUser {
     private readonly mail: IMail,
   ) {}
 
-  async create(data: CreateUserParams): Promise<UserModel> {
+  async create(data: CreateUserParams): Promise<UserModel | null> {
     const { name, email, password } = data;
 
-    await this.loadUserByEmailRepository.loadByEmail(email);
+    const findUser = await this.loadUserByEmailRepository.loadByEmail(email);
+
+    if (findUser) {
+      return null;
+    }
 
     const hashedPassword = await this.hasher.generate(password);
 
