@@ -1,18 +1,50 @@
-import { mockCreateUserRepository, mockHasher, mockMail } from '@/data/test';
+import {
+  mockCreateUserRepository,
+  mockHasher,
+  mockLoadUserByEmailRepository,
+  mockMail,
+} from '@/data/test';
 import { mockCreateUserParams, mockUserModel } from '@/domain/test';
 import { DbCreateUser } from './DbCreateUser';
 
 const makeSut = () => {
+  const loadUserByEmailRepositoryStub = mockLoadUserByEmailRepository();
   const hasherStub = mockHasher();
   const createUserRepositoryStub = mockCreateUserRepository();
   const mailStub = mockMail();
 
-  const sut = new DbCreateUser(hasherStub, createUserRepositoryStub, mailStub);
+  const sut = new DbCreateUser(
+    loadUserByEmailRepositoryStub,
+    hasherStub,
+    createUserRepositoryStub,
+    mailStub,
+  );
 
-  return { sut, createUserRepositoryStub, hasherStub, mailStub };
+  return {
+    sut,
+    loadUserByEmailRepositoryStub,
+    createUserRepositoryStub,
+    hasherStub,
+    mailStub,
+  };
 };
 
 describe('DbCreateUser Test', () => {
+  it('should call LoadUserByEmailRepository with correct value', async () => {
+    const { sut, loadUserByEmailRepositoryStub } = makeSut();
+
+    const repositorySpy = jest.spyOn(
+      loadUserByEmailRepositoryStub,
+      'loadByEmail',
+    );
+
+    const createUserParams = mockCreateUserParams();
+
+    await sut.create(createUserParams);
+
+    expect(repositorySpy).toHaveBeenCalledWith(createUserParams.email);
+  });
+
   it('should call CreateUserRepository with correct values', async () => {
     const { sut, createUserRepositoryStub } = makeSut();
 
