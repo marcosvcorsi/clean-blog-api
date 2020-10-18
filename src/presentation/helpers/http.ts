@@ -30,6 +30,7 @@ export const badRequest = (error: Error): HttpResponse => ({
 export const unauthorized = (): HttpResponse => {
   return {
     statusCode: 401,
+    body: {},
   };
 };
 

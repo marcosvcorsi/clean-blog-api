@@ -13,6 +13,10 @@ export const adaptRoute = (controller: IController) => {
 
     const { statusCode, body } = httpResponse;
 
+    if (statusCode >= 400) {
+      return response.status(statusCode).json({ error: body.message });
+    }
+
     return response.status(statusCode).json(body);
   };
 };
