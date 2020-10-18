@@ -1,5 +1,6 @@
 import { mockCreateUser } from '@/domain/test';
-import { created, serverError } from '@/presentation/helpers/http';
+import { EmailInUseError } from '@/presentation/errors/EmailInUseError';
+import { badRequest, created, serverError } from '@/presentation/helpers/http';
 import { CreateUserController } from './CreateUserController';
 
 const makeSut = () => {
@@ -44,6 +45,18 @@ describe('CreateUserController Test', () => {
     const response = await sut.handle(mockRequest());
 
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return badRequest if CreateUser returns null', async () => {
+    const { sut, createUserStub } = makeSut();
+
+    jest
+      .spyOn(createUserStub, 'create')
+      .mockReturnValueOnce(Promise.resolve(null));
+
+    const response = await sut.handle(mockRequest());
+
+    expect(response).toEqual(badRequest(new EmailInUseError()));
   });
 
   it('should return created with name and email on success', async () => {

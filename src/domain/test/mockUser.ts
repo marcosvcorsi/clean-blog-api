@@ -27,7 +27,7 @@ export const mockAuthenticationResponse = (): AuthenticationResponse => ({
 
 export const mockCreateUser = () => {
   class CreateUserStub implements ICreateUser {
-    async create(): Promise<UserModel> {
+    async create(): Promise<UserModel | null> {
       return mockUserModel();
     }
   }
