@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --respawn --ignore-watch node_modules src/main/server.ts",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "pretest": "yarn typeorm migration:run -c test",
     "test": "cross-env NODE_ENV=test jest --silent --noStackTrace --passWithNoTests --runInBand --forceExit",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test spec.ts --watch",
@@ -48,6 +49,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "celebrate": "^13.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ioredis": "^4.17.3",
