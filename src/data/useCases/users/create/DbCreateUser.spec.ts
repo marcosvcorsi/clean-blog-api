@@ -9,6 +9,11 @@ import { DbCreateUser } from './DbCreateUser';
 
 const makeSut = () => {
   const loadUserByEmailRepositoryStub = mockLoadUserByEmailRepository();
+
+  jest
+    .spyOn(loadUserByEmailRepositoryStub, 'loadByEmail')
+    .mockReturnValue(Promise.resolve(null));
+
   const hasherStub = mockHasher();
   const createUserRepositoryStub = mockCreateUserRepository();
   const mailStub = mockMail();
@@ -53,6 +58,18 @@ describe('DbCreateUser Test', () => {
       .mockReturnValueOnce(Promise.reject(new Error()));
 
     await expect(sut.create(mockCreateUserParams())).rejects.toThrow();
+  });
+
+  it('should return null if LoadUserByEmail repository finds one', async () => {
+    const { sut, loadUserByEmailRepositoryStub } = makeSut();
+
+    jest
+      .spyOn(loadUserByEmailRepositoryStub, 'loadByEmail')
+      .mockReturnValueOnce(Promise.resolve(mockUserModel()));
+
+    const response = await sut.create(mockCreateUserParams());
+
+    expect(response).toBeNull();
   });
 
   it('should call CreateUserRepository with correct values', async () => {
