@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --respawn --ignore-watch node_modules src/main/server.ts",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
@@ -50,6 +51,7 @@
     "lint-staged": "^10.4.0",
     "mockdate": "^3.0.2",
     "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
     "sqlite3": "^5.0.0",
     "supertest": "^5.0.0",
     "ts-jest": "^26.4.1",
