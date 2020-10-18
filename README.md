@@ -5,9 +5,9 @@
 
 ## Sobre
 
-Projeto criado baseado no curso de Node.js do Mango na Udemy, alterado algumas funcionalidades, 
-mantendo apenas o cadastro de usuário e autenticação conforme curso. Segui a mesma estrutura de Clean
-Architecture, TDD, SOLID, para práticar as métodologias e práticas passadas. Mudei a implementação para um banco relacional 
+Projeto criado baseado no curso de [Node.js do Rodrigo Manguinho](https://www.udemy.com/course/tdd-com-mango/), alterado algumas funcionalidades, 
+mantendo apenas o cadastro de usuário e autenticação. Segui a mesma estrutura de Clean
+Architecture, TDD, SOLID, para aplicar as métodologias e práticas demonstradas no curso. Mudei a implementação para um banco relacional 
 e um ORM (PostgreSQL/SQLite e TypeORM), junto com envio de e-mail (Nodemailer) e cache (Redis).
 
 ---
