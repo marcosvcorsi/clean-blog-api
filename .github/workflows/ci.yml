@@ -38,4 +38,4 @@ jobs:
 
       # executar build
       - name: Run Tests
-        run: yarn test:ci
+        run: yarn test:coveralls
