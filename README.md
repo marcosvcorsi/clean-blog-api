@@ -6,7 +6,8 @@
 ## Sobre
 
 Projeto criado baseado no curso de Node.js do Mango na Udemy, alterado algumas funcionalidades, 
-mantendo a de cadastro de usuário e autenticação. Para práticar foi utilizado um banco relacional 
+mantendo apenas o cadastro de usuário e autenticação conforme curso. Utilizado a mesma estrutura de Clean
+Architecture, TDD, SOLID, para práticar as métodologias passadas. Mudei a implementação para um banco relacional 
 e um ORM (PostgreSQL/SQLite e TypeORM), junto com envio de e-mail (Nodemailer) e cache (Redis).
 
 ---
