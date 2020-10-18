@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist",
+    "start": "node dist/main/server.js",
     "dev": "tsnd -r tsconfig-paths/register --inspect --transpile-only --respawn --ignore-watch node_modules src/main/server.ts",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "pretest": "yarn typeorm migration:run -c test",
