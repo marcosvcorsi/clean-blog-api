@@ -4,6 +4,7 @@ import { Connection, getRepository } from 'typeorm';
 import createConnection from '@/infra/database/typeorm/connection';
 import { User } from '@/infra/database/typeorm/entities/User';
 import authConfig from '@/main/config/auth';
+import { Post } from '@/infra/database/typeorm/entities/Post';
 import app from '../../index';
 
 let connection: Connection;
@@ -78,6 +79,30 @@ describe('Posts Routes Test', () => {
       const response = await request(app).get('/posts');
 
       expect(response.status).toBe(403);
+    });
+
+    it('should return user posts on GET /posts', async () => {
+      const { token, userId } = await mockUserToken();
+
+      const postsRepository = getRepository(Post);
+
+      const post = postsRepository.create({
+        userId,
+        title: 'anytitle',
+        content: 'anycontent',
+        date: new Date(),
+      });
+
+      await postsRepository.save(post);
+
+      const response = await request(app)
+        .get('/posts')
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0].id).toBe(post.id);
+      expect(response.body[0].userId).toBe(userId);
     });
   });
 });
