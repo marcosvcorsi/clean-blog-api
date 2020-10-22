@@ -20,6 +20,7 @@ module.exports = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/**/test/**.ts',
     '!<rootDir>/src/infra/database/typeorm/migrations/*.ts',
     '!<rootDir>/src/infra/database/typeorm/connection.ts',
     '!<rootDir>/src/main/server.ts',
